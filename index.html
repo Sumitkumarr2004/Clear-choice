@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>ClearChoice</title>
+</head>
+<body>
+    <h1>Welcome to ClearChoice</h1>
+    <input type="text" id="productInput" placeholder="Enter product name">
+    <button onclick="fetchProductInfo()">Get Info</button>
+    <div id="productInfo"></div>
+
+    <script>
+        async function fetchProductInfo() {
+            const productName = document.getElementById('productInput').value;
+            const response = await fetch(`/api/product?name=${productName}`);
+            const data = await response.json();
+            const infoDiv = document.getElementById('productInfo');
+            if (response.ok) {
+                infoDiv.innerHTML = `<p>Nutrition: ${data.nutrition}</p><p>Sustainability: ${data.sustainability}</p>`;
+            } else {
+                infoDiv.innerHTML = `<p>${data.error}</p>`;
+            }
+        }
+    </script>
+</body>
+</html>
